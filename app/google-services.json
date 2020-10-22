@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "213464631166",
+    "firebase_url": "https://savemore-ed297.firebaseio.com",
+    "project_id": "savemore-ed297",
+    "storage_bucket": "savemore-ed297.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213464631166:android:83f8c43e604be7a11c952f",
+        "android_client_info": {
+          "package_name": "com.example.savemore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213464631166-lt6ljhr6tv16fish6jgtts4mq203vm2i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.savemore",
+            "certificate_hash": "8841bb0b65b3b7e15b3723c9705b14807af4ac78"
+          }
+        },
+        {
+          "client_id": "213464631166-i4ab021sqf5m50i8b3u8kv2jcqq6namb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo0U13kjKn2egzJsHJaAFq6lucjvKsqcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213464631166-i4ab021sqf5m50i8b3u8kv2jcqq6namb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
