@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(user!=null)
         {
-            startActivity(new Intent(context,Dashboard.class));
+            startActivity(new Intent(context,DashboardActivity.class));
         }
 
         b1 = findViewById(R.id.login);
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         Toast.makeText(MainActivity.this,"Login successful!",Toast.LENGTH_SHORT).show();
                                         b.setVisibility(View.GONE);
-                                        startActivity(new Intent(context,Dashboard.class));
+                                        startActivity(new Intent(context,DashboardActivity.class));
 
                                     } else {
 
