@@ -10,16 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Savemore">
         <activity
-            android:name=".DashboardActivity"
+            android:name=".ui.activities.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.Savemore.NoActionBar"></activity>
-        <activity
-            android:name=".MainActivity2"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/Theme.Savemore.NoActionBar"></activity>
-        <activity android:name=".Dashboard" />
-        <activity android:name=".Signup" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.activities.Signup" />
+        <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

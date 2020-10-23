@@ -1,16 +1,16 @@
-package com.example.savemore;
+package com.example.savemore.ui.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.savemore.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -29,14 +29,6 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard2);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -48,6 +40,24 @@ public class DashboardActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id=menuItem.getItemId();
+                //it's possible to do more actions on several items, if there is a large amount of items I prefer switch(){case} instead of if()
+                if (id==R.id.nav_signout)
+                {
+                    FirebaseAuth.getInstance().signOut();
+                    Toast.makeText(DashboardActivity.this,"User signed out successfully",Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
+
+                NavigationUI.onNavDestinationSelected(menuItem,navController);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -55,18 +65,6 @@ public class DashboardActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dashboard, menu);
         return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem menuItem)
-    {
-        if(menuItem.getItemId()==R.id.logout)
-        {
-            FirebaseAuth.getInstance().signOut();
-            Toast.makeText(DashboardActivity.this,"User signed out successfully",Toast.LENGTH_SHORT).show();
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

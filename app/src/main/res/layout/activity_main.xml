@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.activities.MainActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/to_text_input_layout"
@@ -21,7 +21,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="45dp"
-            android:hint="email ID"
+            android:hint="Email ID"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,7 +41,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="45dp"
-            android:hint="password"
+            android:hint="Password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 

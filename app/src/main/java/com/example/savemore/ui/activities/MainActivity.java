@@ -1,4 +1,4 @@
-package com.example.savemore;
+package com.example.savemore.ui.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.savemore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 if(email.length()==0 || pass.length()==0)
                 {
                     Toast.makeText(context, "Please fill all the fields!", Toast.LENGTH_SHORT).show();
+                    b.setVisibility(View.GONE);
                 }
                 else
                 {
