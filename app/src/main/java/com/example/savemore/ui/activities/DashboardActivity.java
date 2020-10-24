@@ -1,5 +1,6 @@
 package com.example.savemore.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
@@ -49,7 +50,9 @@ public class DashboardActivity extends AppCompatActivity {
                 {
                     FirebaseAuth.getInstance().signOut();
                     Toast.makeText(DashboardActivity.this,"User signed out successfully",Toast.LENGTH_SHORT).show();
+                    drawer.closeDrawer(GravityCompat.START);
                     onBackPressed();
+                    startActivity(new Intent(DashboardActivity.this,MainActivity.class));
                 }
 
                 NavigationUI.onNavDestinationSelected(menuItem,navController);
@@ -72,5 +75,10 @@ public class DashboardActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(DashboardActivity.this,"Back Disabled",Toast.LENGTH_SHORT).show();
     }
 }

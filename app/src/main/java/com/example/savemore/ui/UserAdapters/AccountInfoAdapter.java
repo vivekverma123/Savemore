@@ -1,10 +1,12 @@
 package com.example.savemore.ui.UserAdapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +17,8 @@ import androidx.annotation.NonNull;
 import com.example.model.Account;
 import com.example.model.ProfileInfo;
 import com.example.savemore.R;
+import com.example.savemore.ui.activities.AccountDetail;
+import com.example.savemore.ui.activities.Signup;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -49,8 +53,19 @@ public class AccountInfoAdapter extends ArrayAdapter<Account>
             public void onClick(View v) {
 
                 DatabaseReference d1 = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid());
-                d1.child("Accounts").child(account.getName()).setValue(null);
+                d1.child("Accounts").child(account.getId()).setValue(null);
                 Toast.makeText(context,"Account deleted successfully!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button b3 = convertView.findViewById(R.id.see);
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AccountDetail.class);
+                intent.putExtra("Account",account);
+                //Toast.makeText(context,"Clicked",Toast.LENGTH_SHORT).show();
+                context.startActivity(intent);
             }
         });
 

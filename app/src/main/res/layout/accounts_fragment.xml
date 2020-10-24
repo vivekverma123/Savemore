@@ -15,7 +15,7 @@
         android:layout_margin="25dp"
         android:clickable="true"
         android:src="@drawable/add_account"
-        app:backgroundTint="#80CBC4" />
+        app:backgroundTint="#FFFFFF" />
 
     <ListView
         android:id="@+id/account_list"

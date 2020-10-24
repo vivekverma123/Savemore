@@ -1,12 +1,15 @@
 package com.example.model;
 
-public class Account {
+import java.io.Serializable;
 
-    private String name;
+public class Account implements Serializable {
+
+    private String name,id;
     private int balance,debit,credit;
 
-    public Account(String name, int balance, int debit, int credit) {
+    public Account(String name, String id, int balance, int debit, int credit) {
         this.name = name;
+        this.id = id;
         this.balance = balance;
         this.debit = debit;
         this.credit = credit;
@@ -45,5 +48,13 @@ public class Account {
 
     public void setCredit(int credit) {
         this.credit = credit;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

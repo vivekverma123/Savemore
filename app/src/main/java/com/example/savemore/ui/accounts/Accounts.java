@@ -2,6 +2,7 @@ package com.example.savemore.ui.accounts;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import com.example.model.ProfileInfo;
 import com.example.savemore.R;
 import com.example.savemore.ui.DialogBoxes.CreateAccountDialog;
 import com.example.savemore.ui.UserAdapters.AccountInfoAdapter;
+import com.example.savemore.ui.activities.AccountDetail;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,12 +55,12 @@ public class Accounts extends Fragment {
             }
         });
 
+        listView = view.findViewById(R.id.account_list);
 
         d1 = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid());
         d1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listView = view.findViewById(R.id.account_list);
                 ArrayList<Account> arrayList = new ArrayList<>();
                 for(DataSnapshot dataSnapshot : snapshot.child("Accounts").getChildren())
                 {
@@ -67,7 +70,6 @@ public class Accounts extends Fragment {
                 AccountInfoAdapter accountInfoAdapter = new AccountInfoAdapter(getActivity(),arrayList);
                 listView.setAdapter(accountInfoAdapter);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

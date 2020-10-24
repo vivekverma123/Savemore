@@ -45,9 +45,11 @@ public class CreateAccountDialog extends Dialog implements android.view.View.OnC
             {
                 case R.id.save:
                     EditText e1 = findViewById(R.id.account_name1);
-                    Toast.makeText(c,"Account with name " + e1.getText().toString() + "will be created",Toast.LENGTH_SHORT).show();
-                    Account account = new Account(e1.getText().toString(),0,0,0);
-                    databaseReference.child("Accounts").child(account.getName()).setValue(account);
+                    //Toast.makeText(c,"Account with name " + e1.getText().toString() + "will be created",Toast.LENGTH_SHORT).show();
+
+                    String id = databaseReference.child("Accounts").push().getKey();
+                    Account account = new Account(e1.getText().toString(),id,0,0,0);
+                    databaseReference.child("Accounts").child(id).setValue(account);
                     Toast.makeText(c,"Account added successfully",Toast.LENGTH_SHORT).show();
                     break;
 
