@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.model.ProfileInfo;
 import com.example.savemore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,7 +32,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        init();
+        try {
+            init();
+        }
+        catch(Exception e1)
+        {
+            Toast.makeText(MainActivity.this,e1.toString(),Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -49,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(user!=null)
         {
+            ProfileInfo.setFirebaseUser(user);
             startActivity(new Intent(context,DashboardActivity.class));
         }
 
@@ -78,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-
+                                        FirebaseUser user = auth.getCurrentUser();
+                                        ProfileInfo.setFirebaseUser(user);
                                         Toast.makeText(MainActivity.this,"Login successful!",Toast.LENGTH_SHORT).show();
                                         b.setVisibility(View.GONE);
                                         startActivity(new Intent(context,DashboardActivity.class));

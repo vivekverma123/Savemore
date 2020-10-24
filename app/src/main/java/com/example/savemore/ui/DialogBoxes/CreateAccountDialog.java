@@ -9,7 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.model.Account;
+import com.example.model.ProfileInfo;
 import com.example.savemore.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateAccountDialog extends Dialog implements android.view.View.OnClickListener
 {
@@ -17,6 +21,7 @@ public class CreateAccountDialog extends Dialog implements android.view.View.OnC
     public Activity c;
     public Dialog d;
     public Button SaveButton, CancelButton;
+    public DatabaseReference databaseReference;
 
     public CreateAccountDialog(Activity a) {
             super(a);
@@ -31,6 +36,7 @@ public class CreateAccountDialog extends Dialog implements android.view.View.OnC
             CancelButton = (Button) findViewById(R.id.cancel);
             SaveButton.setOnClickListener(this);
             CancelButton.setOnClickListener(this);
+            databaseReference = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid());
     }
 
     public void onClick(View v)
@@ -38,9 +44,11 @@ public class CreateAccountDialog extends Dialog implements android.view.View.OnC
             switch (v.getId())
             {
                 case R.id.save:
-
                     EditText e1 = findViewById(R.id.account_name1);
                     Toast.makeText(c,"Account with name " + e1.getText().toString() + "will be created",Toast.LENGTH_SHORT).show();
+                    Account account = new Account(e1.getText().toString(),0,0,0);
+                    databaseReference.child("Accounts").child(account.getName()).setValue(account);
+                    Toast.makeText(c,"Account added successfully",Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.cancel:

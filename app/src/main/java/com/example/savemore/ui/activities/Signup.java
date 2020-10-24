@@ -16,6 +16,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Signup extends AppCompatActivity {
 
@@ -25,6 +29,8 @@ public class Signup extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private ProgressBar p1;
+    private DatabaseReference databaseReference;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +72,7 @@ public class Signup extends AppCompatActivity {
 
                 } else {
                     if (e2.equals(e3) == false) {
-                        Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                         p1.setVisibility(View.GONE);
                     } else {
 
@@ -78,6 +84,9 @@ public class Signup extends AppCompatActivity {
 
                                             Toast.makeText(Signup.this,"Registration successful!",Toast.LENGTH_SHORT).show();
                                             p1.setVisibility(View.GONE);
+                                            String uid = auth.getCurrentUser().getUid();
+                                            databaseReference = FirebaseDatabase.getInstance().getReference(uid);
+                                            databaseReference.child("Name").setValue("Name not set");
                                             onBackPressed();
 
                                         } else {
