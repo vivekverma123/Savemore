@@ -13,7 +13,7 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:text="Account Name"
-        android:textColor="#000000"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Date"
-            android:textColor="#000000"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:layout_weight="0.7"
             android:gravity="center"
             android:text="Particular"
-            android:textColor="#000000"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold" />
 
         <TextView
@@ -63,7 +63,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Debit / Credit"
-            android:textColor="#000000"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Balance (INR)"
-            android:textColor="#000000"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold" />
     </LinearLayout>
 

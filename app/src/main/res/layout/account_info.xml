@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_margin="10dp"
-    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <LinearLayout
@@ -22,7 +21,7 @@
             android:padding="10dp"
             android:text="Account Name"
             android:textAllCaps="false"
-            android:textColor="#000000"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="18sp" />
 
         <Button
@@ -61,7 +60,7 @@
             android:gravity="right|center_vertical"
             android:padding="10dp"
             android:text="Balance:"
-            android:textColor="#000000" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:id="@+id/balance"
@@ -71,6 +70,6 @@
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="TextView"
-            android:textColor="#000000" />
+            android:textColor="?android:attr/textColorPrimary" />
     </LinearLayout>
 </LinearLayout>
