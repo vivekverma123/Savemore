@@ -6,8 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +18,7 @@ import com.example.model.Account;
 import com.example.model.ProfileInfo;
 import com.example.model.Transaction;
 import com.example.savemore.R;
+import com.example.savemore.ui.DialogBoxes.CategoryDialog;
 import com.example.savemore.ui.DialogBoxes.CreateAccountDialog;
 import com.example.savemore.ui.DialogBoxes.CreateTransactionDialog;
 import com.example.savemore.ui.UserAdapters.TransactionInfoAdapter;
@@ -34,7 +38,7 @@ public class AccountDetail extends AppCompatActivity {
 
     Account account;
     ListView listView;
-    FloatingActionButton floatingActionButton;
+    FloatingActionButton floatingActionButton,floatingActionButton2;
     TextView textView,textView2;
     DatabaseReference databaseReference;
 
@@ -52,13 +56,41 @@ public class AccountDetail extends AppCompatActivity {
         String text = "<font color=#33691e>Debit / </font> <font color=#7f0000>Credit</font>";
 
         textView2.setText(Html.fromHtml(text));
+        ListView listView = findViewById(R.id.transactions);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                PopupMenu popupMenu = new PopupMenu(AccountDetail.this,view);
+                popupMenu.getMenuInflater().inflate(R.menu.transactmenu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        if(item.getItemId()==R.id.edit)
+                        {
+                            Toast.makeText(AccountDetail.this,"Edit service will start shortly",Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(AccountDetail.this,"Delete service will start shortly",Toast.LENGTH_SHORT).show();
+                        }
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+
+            }
+        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid()).child("Transactions").child(account.getId());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int balance = 0;
-                ListView listView = findViewById(R.id.transactions);
+
                 ArrayList <Transaction> arrayList = new ArrayList<>();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
@@ -127,6 +159,22 @@ public class AccountDetail extends AppCompatActivity {
                 CreateTransactionDialog cdd=new CreateTransactionDialog(AccountDetail.this,account);
                 cdd.show();
                 //Toast.makeText(AccountDetail.this,"Services are going to start shortly!!!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        FloatingActionButton floatingActionButton1 = findViewById(R.id.addcategory);
+        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+
+                    CategoryDialog categoryDialog = new CategoryDialog(AccountDetail.this, account);
+                    categoryDialog.show();
+                }
+                catch(Exception e1)
+                {
+                    Toast.makeText(AccountDetail.this,e1.toString(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

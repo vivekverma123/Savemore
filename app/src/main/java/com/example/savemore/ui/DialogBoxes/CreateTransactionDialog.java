@@ -31,7 +31,7 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
     public DatabaseReference databaseReference;
     public Account account;
 
-    public CreateTransactionDialog(Activity a,Account account) {
+    public CreateTransactionDialog(Activity a, Account account) {
         super(a);
         this.c = a;
         this.account = account;
