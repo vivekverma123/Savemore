@@ -21,6 +21,7 @@ import com.example.savemore.ui.activities.AccountDetail;
 import com.example.savemore.ui.activities.Signup;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -53,6 +54,8 @@ public class AccountInfoAdapter extends ArrayAdapter<Account>
             public void onClick(View v) {
 
                 DatabaseReference d1 = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid());
+                d1.child("Categories").child(account.getId()).setValue(null);
+                d1.child("Transactions").child(account.getId()).setValue(null);
                 d1.child("Accounts").child(account.getId()).setValue(null);
                 Toast.makeText(context,"Account deleted successfully!",Toast.LENGTH_SHORT).show();
             }

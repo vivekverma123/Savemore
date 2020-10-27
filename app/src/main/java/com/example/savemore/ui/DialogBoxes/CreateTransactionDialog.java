@@ -30,11 +30,26 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
     public Button SaveButton, CancelButton;
     public DatabaseReference databaseReference;
     public Account account;
+    public Transaction transaction;
+    public int x;
+    DatePicker datePicker;
+    RadioGroup radioGroup;
+    EditText e1;
+    EditText e2;
 
     public CreateTransactionDialog(Activity a, Account account) {
         super(a);
         this.c = a;
         this.account = account;
+        x = 0;
+    }
+
+    public CreateTransactionDialog(Activity a, Account account, Transaction transaction) {
+        super(a);
+        this.c = a;
+        this.account = account;
+        this.transaction = transaction;
+        x = 1;
     }
 
     protected void onCreate(Bundle savedInstanceState){
@@ -46,6 +61,37 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
         SaveButton.setOnClickListener(this);
         CancelButton.setOnClickListener(this);
         databaseReference = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid()).child("Transactions").child(account.getId());
+
+        datePicker = findViewById(R.id.datePicker1);
+        radioGroup = findViewById(R.id.transaction_type);
+        e1 = findViewById(R.id.amount);
+        e2 = findViewById(R.id.particular);
+
+
+        if(x==1)
+        {
+            String day,month,year;
+            SimpleDateFormat sdf = new SimpleDateFormat("dd");
+            day = sdf.format(transaction.giveDate());
+            sdf = new SimpleDateFormat("MM");
+            month = sdf.format(transaction.giveDate());
+            sdf = new SimpleDateFormat("yyyy");
+            year = sdf.format(transaction.giveDate());
+
+            datePicker.updateDate(Integer.parseInt(year),Integer.parseInt(month)-1,Integer.parseInt(day));
+            if(transaction.getType()==0)
+            {
+                radioGroup.check(R.id.debit);
+            }
+            else
+            {
+                radioGroup.check(R.id.credit);
+            }
+
+            e1.setText(Integer.toString(transaction.getAmount()));
+            e2.setText(transaction.getCategory());
+
+        }
 
     }
 
@@ -70,19 +116,18 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
 
     public void init()
     {
-        DatePicker datePicker = findViewById(R.id.datePicker1);
         String date = datePicker.getDayOfMonth() + "/" + (datePicker.getMonth() + 1) + "/" + datePicker.getYear();
         SimpleDateFormat sdf =  new SimpleDateFormat("dd/MM/yyyy");
         Date d1 = new Date();
         try {
             d1 = sdf.parse(date);
         }
-        catch(Exception e1)
+        catch(Exception e)
         {
 
         }
 
-        RadioGroup radioGroup = findViewById(R.id.transaction_type);
+
         int selectedId = radioGroup.getCheckedRadioButtonId();
         int type = 0;
         switch(selectedId)
@@ -99,8 +144,7 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
                 type = -1;
         }
 
-        EditText e1 = findViewById(R.id.amount);
-        EditText e2 = findViewById(R.id.particular);
+
 
         if(e1.getText().toString().equals("") || e2.getText().toString().equals("") || type == -1)
         {
@@ -111,9 +155,17 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
             try
             {
                 int amount = Integer.parseInt(e1.getText().toString());
-                String id = databaseReference.push().getKey();
+                String id;
+                if(x==0)
+                {
+                    id = databaseReference.push().getKey();
+                }
+                else
+                {
+                    id = transaction.getId();
+                }
                 Transaction transaction = new Transaction(d1.getTime(),type,amount,0,e2.getText().toString(),id);
-                databaseReference.child(id).setValue(transaction);
+                databaseReference.child(transaction.getId()).setValue(transaction);
 
             }
             catch(Exception e)

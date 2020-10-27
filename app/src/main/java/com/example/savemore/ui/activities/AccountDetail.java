@@ -41,13 +41,20 @@ public class AccountDetail extends AppCompatActivity {
     FloatingActionButton floatingActionButton,floatingActionButton2;
     TextView textView,textView2;
     DatabaseReference databaseReference;
+    private ValueEventListener listener;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_detail);
 
+    }
+
+    public void onResume() {
+
+        super.onResume();
         Intent intent = getIntent();
         account = (Account)intent.getSerializableExtra("Account");
+        databaseReference = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid()).child("Transactions").child(account.getId());
 
         init();
 
@@ -61,8 +68,12 @@ public class AccountDetail extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                Transaction transaction = (Transaction) parent.getItemAtPosition(position);
+
                 PopupMenu popupMenu = new PopupMenu(AccountDetail.this,view);
                 popupMenu.getMenuInflater().inflate(R.menu.transactmenu, popupMenu.getMenu());
+
+
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -70,11 +81,14 @@ public class AccountDetail extends AppCompatActivity {
 
                         if(item.getItemId()==R.id.edit)
                         {
-                            Toast.makeText(AccountDetail.this,"Edit service will start shortly",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(AccountDetail.this,"Edit service will start shortly",Toast.LENGTH_SHORT).show();
+                            CreateTransactionDialog createTransactionDialog = new CreateTransactionDialog(AccountDetail.this,account,transaction);
+                            createTransactionDialog.show();
                         }
                         else
                         {
-                            Toast.makeText(AccountDetail.this,"Delete service will start shortly",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(AccountDetail.this,"Delete service will start shortly",Toast.LENGTH_SHORT).show();
+                            databaseReference.child(transaction.getId()).setValue(null);
                         }
                         return true;
                     }
@@ -85,11 +99,10 @@ public class AccountDetail extends AppCompatActivity {
             }
         });
 
-        databaseReference = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid()).child("Transactions").child(account.getId());
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        listener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int balance = 0;
+                int balance = 0,debit = 0;
 
                 ArrayList <Transaction> arrayList = new ArrayList<>();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren())
@@ -123,6 +136,7 @@ public class AccountDetail extends AppCompatActivity {
                 {
                     if(t1.getType()==0)
                     {
+                        debit += t1.getAmount();
                         balance += t1.getAmount();
                     }
                     else
@@ -133,6 +147,12 @@ public class AccountDetail extends AppCompatActivity {
                     arrayList1.add(t1);
                 }
 
+                account.setBalance(balance);
+                account.setDebit(debit);
+                account.setDebit(debit-balance);
+                DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid()).child("Accounts").child(account.getId());
+                databaseReference1.setValue(account);
+
                 TransactionInfoAdapter transactionInfoAdapter = new TransactionInfoAdapter(AccountDetail.this,arrayList1);
                 listView.setAdapter(transactionInfoAdapter);
             }
@@ -141,8 +161,8 @@ public class AccountDetail extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
-
+        };
+        databaseReference.addValueEventListener(listener);
     }
 
     public void init()
@@ -177,5 +197,15 @@ public class AccountDetail extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void onPause() {
+        super.onPause();
+        databaseReference.removeEventListener(listener);
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        databaseReference.removeEventListener(listener);
     }
 }
