@@ -1,8 +1,9 @@
 package com.example.model;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Transaction {
+public class Transaction implements Serializable {
 
     private long time;
     private int type,amount,bal;
@@ -11,16 +12,18 @@ public class Transaction {
        1 for credit */
 
     private String category;
+    private String particular;
     private String id;
 
     /*only for credit transactions will be user defined strings to group expenses as per his need */
 
-    public Transaction(long time, int type, int amount, int bal, String category, String id) {
+    public Transaction(long time, int type, int amount, int bal, String category, String particular, String id) {
         this.time = time;
         this.type = type;
         this.amount = amount;
         this.bal = bal;
         this.category = category;
+        this.particular = particular;
         this.id = id;
     }
 
@@ -79,5 +82,13 @@ public class Transaction {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getParticular() {
+        return particular;
+    }
+
+    public void setParticular(String particular) {
+        this.particular = particular;
     }
 }

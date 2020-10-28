@@ -5,10 +5,13 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.model.Account;
@@ -20,7 +23,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class CreateTransactionDialog extends Dialog implements android.view.View.OnClickListener
 {
@@ -36,20 +44,29 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
     RadioGroup radioGroup;
     EditText e1;
     EditText e2;
+    public TreeMap<String,Integer> mp1;
+    String selectedCategory;
 
-    public CreateTransactionDialog(Activity a, Account account) {
+    public CreateTransactionDialog(Activity a, Account account, TreeMap <String,Integer> mp1) {
         super(a);
         this.c = a;
         this.account = account;
         x = 0;
+        this.mp1 = mp1;
+
+        if(mp1==null)
+        {
+            Toast.makeText(c,"Empty",Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public CreateTransactionDialog(Activity a, Account account, Transaction transaction) {
+    public CreateTransactionDialog(Activity a, Account account, Transaction transaction, TreeMap <String,Integer> mp1) {
         super(a);
         this.c = a;
         this.account = account;
         this.transaction = transaction;
         x = 1;
+        this.mp1 = mp1;
     }
 
     protected void onCreate(Bundle savedInstanceState){
@@ -66,7 +83,31 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
         radioGroup = findViewById(R.id.transaction_type);
         e1 = findViewById(R.id.amount);
         e2 = findViewById(R.id.particular);
+        Spinner spinner = findViewById(R.id.categories2);
 
+        Iterator iterator = mp1.entrySet().iterator();
+        ArrayList <String> arrayList = new ArrayList<>();
+        while(iterator.hasNext())
+        {
+            Map.Entry element = (Map.Entry)iterator.next();
+            arrayList.add(element.getKey().toString());
+        }
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(c,R.layout.support_simple_spinner_dropdown_item,arrayList);
+        spinner.setAdapter(arrayAdapter);
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCategory = (String)parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         if(x==1)
         {
@@ -89,7 +130,11 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
             }
 
             e1.setText(Integer.toString(transaction.getAmount()));
-            e2.setText(transaction.getCategory());
+            e2.setText(transaction.getParticular());
+
+            if(mp1.get(transaction.getCategory())!=null) {
+                spinner.setSelection(mp1.get(transaction.getCategory()));
+            }
 
         }
 
@@ -164,7 +209,11 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
                 {
                     id = transaction.getId();
                 }
-                Transaction transaction = new Transaction(d1.getTime(),type,amount,0,e2.getText().toString(),id);
+                if(type==0)
+                {
+                    selectedCategory = "Not Applicable";
+                }
+                Transaction transaction = new Transaction(d1.getTime(),type,amount,0,selectedCategory,e2.getText().toString(),id);
                 databaseReference.child(transaction.getId()).setValue(transaction);
 
             }
@@ -172,9 +221,7 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
             {
                 Toast.makeText(c,"Invalid Amount",Toast.LENGTH_SHORT).show();
             }
-
         }
-
     }
 
 }

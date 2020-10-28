@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,e1.toString(),Toast.LENGTH_SHORT).show();
         }
 
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
+
 
     }
 

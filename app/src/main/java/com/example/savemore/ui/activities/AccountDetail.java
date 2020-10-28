@@ -3,8 +3,13 @@ package com.example.savemore.ui.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,22 +24,27 @@ import com.example.model.ProfileInfo;
 import com.example.model.Transaction;
 import com.example.savemore.R;
 import com.example.savemore.ui.DialogBoxes.CategoryDialog;
-import com.example.savemore.ui.DialogBoxes.CreateAccountDialog;
 import com.example.savemore.ui.DialogBoxes.CreateTransactionDialog;
 import com.example.savemore.ui.UserAdapters.TransactionInfoAdapter;
+import com.example.utilities.RealPathUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 public class AccountDetail extends AppCompatActivity {
 
+    public final int REQUEST_FILE = 65;
 
     Account account;
     ListView listView;
@@ -42,6 +52,8 @@ public class AccountDetail extends AppCompatActivity {
     TextView textView,textView2;
     DatabaseReference databaseReference;
     private ValueEventListener listener;
+    private TreeMap <String,Integer> mp1;
+    private ArrayList <Transaction> arrayList;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +66,7 @@ public class AccountDetail extends AppCompatActivity {
         super.onResume();
         Intent intent = getIntent();
         account = (Account)intent.getSerializableExtra("Account");
-        databaseReference = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid()).child("Transactions").child(account.getId());
+        databaseReference = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid());
 
         init();
 
@@ -82,13 +94,13 @@ public class AccountDetail extends AppCompatActivity {
                         if(item.getItemId()==R.id.edit)
                         {
                             //Toast.makeText(AccountDetail.this,"Edit service will start shortly",Toast.LENGTH_SHORT).show();
-                            CreateTransactionDialog createTransactionDialog = new CreateTransactionDialog(AccountDetail.this,account,transaction);
+                            CreateTransactionDialog createTransactionDialog = new CreateTransactionDialog(AccountDetail.this,account,transaction,mp1);
                             createTransactionDialog.show();
                         }
                         else
                         {
                             //Toast.makeText(AccountDetail.this,"Delete service will start shortly",Toast.LENGTH_SHORT).show();
-                            databaseReference.child(transaction.getId()).setValue(null);
+                            databaseReference.child("Transactions").child(account.getId()).child(transaction.getId()).setValue(null);
                         }
                         return true;
                     }
@@ -104,8 +116,17 @@ public class AccountDetail extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int balance = 0,debit = 0;
 
+                mp1 = new TreeMap<>();
+                int index = 0;
+                for(DataSnapshot dataSnapshot : snapshot.child("Categories").child(account.getId()).getChildren())
+                {
+                    mp1.put(dataSnapshot.getValue(String.class),index);
+                    index += 1;
+                }
+                setMp1(mp1);
+
                 ArrayList <Transaction> arrayList = new ArrayList<>();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                for(DataSnapshot dataSnapshot : snapshot.child("Transactions").child(account.getId()).getChildren())
                 {
                     Transaction transaction = dataSnapshot.getValue(Transaction.class);
                     arrayList.add(transaction);
@@ -147,6 +168,8 @@ public class AccountDetail extends AppCompatActivity {
                     arrayList1.add(t1);
                 }
 
+                setArrayList(arrayList1);
+
                 account.setBalance(balance);
                 account.setDebit(debit);
                 account.setDebit(debit-balance);
@@ -176,9 +199,15 @@ public class AccountDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                CreateTransactionDialog cdd=new CreateTransactionDialog(AccountDetail.this,account);
-                cdd.show();
-                //Toast.makeText(AccountDetail.this,"Services are going to start shortly!!!",Toast.LENGTH_SHORT).show();
+                if(mp1.size()==0)
+                {
+                    Toast.makeText(AccountDetail.this,"You must add one or more transaction categories to proceed",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    CreateTransactionDialog cdd = new CreateTransactionDialog(AccountDetail.this, account, mp1);
+                    cdd.show();
+                    //Toast.makeText(AccountDetail.this,"Services are going to start shortly!!!",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -188,8 +217,26 @@ public class AccountDetail extends AppCompatActivity {
             public void onClick(View v) {
                 try {
 
-                    CategoryDialog categoryDialog = new CategoryDialog(AccountDetail.this, account);
+                    CategoryDialog categoryDialog = new CategoryDialog(AccountDetail.this, account,mp1);
                     categoryDialog.show();
+                }
+                catch(Exception e1)
+                {
+                    Toast.makeText(AccountDetail.this,e1.toString(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        FloatingActionButton floatingActionButton3 = findViewById(R.id.charts);
+        floatingActionButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try{
+                Intent intent = new Intent(AccountDetail.this,ChartActivity.class);
+                intent.putExtra("Account",account);
+                intent.putExtra("Transactions",arrayList);
+                startActivity(intent);
                 }
                 catch(Exception e1)
                 {
@@ -208,4 +255,14 @@ public class AccountDetail extends AppCompatActivity {
         super.onDestroy();
         databaseReference.removeEventListener(listener);
     }
+
+    public void setArrayList(ArrayList<Transaction> arrayList) {
+        this.arrayList = arrayList;
+    }
+
+    public void setMp1(TreeMap<String, Integer> mp1) {
+        this.mp1 = mp1;
+    }
+
+
 }

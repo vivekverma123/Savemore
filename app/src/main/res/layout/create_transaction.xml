@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="600dp">
+    android:layout_height="700dp">
 
     <DatePicker
         android:id="@+id/datePicker1"
@@ -22,7 +22,7 @@
         android:id="@+id/textView12"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:gravity="center|left"
+        android:gravity="center"
         android:padding="10dp"
         android:text="Provide Transcation Details"
         android:textColor="?android:attr/textColorPrimary"
@@ -113,10 +113,10 @@
         android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintHorizontal_bias="0.172"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-        app:layout_constraintVertical_bias="0.153" />
+        app:layout_constraintVertical_bias="0.56" />
 
     <Button
         android:id="@+id/save1"
@@ -128,6 +128,17 @@
         app:layout_constraintHorizontal_bias="0.826"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-        app:layout_constraintVertical_bias="0.153" />
+        app:layout_constraintVertical_bias="0.56" />
+
+    <Spinner
+        android:id="@+id/categories2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+        app:layout_constraintVertical_bias="0.162" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,7 +49,7 @@ public class TransactionInfoAdapter extends ArrayAdapter<Transaction>
         String date = sdf.format(transaction.giveDate());
 
         t1.setText(date);
-        t2.setText(transaction.getCategory());
+        t2.setText(transaction.getParticular());
         t3.setText(transaction.getAmount() + "");
         t4.setText(transaction.getBal() + "");
 
