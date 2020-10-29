@@ -80,7 +80,7 @@
     <ListView
         android:id="@+id/transactions"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="300dp"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,10 +98,10 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transactions"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.162"
         app:srcCompat="@drawable/transact" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -110,11 +110,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/transact"
         app:layout_constraintEnd_toStartOf="@+id/transact"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transactions"
+        app:layout_constraintTop_toTopOf="@+id/transact"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/categories" />
 
@@ -124,12 +124,26 @@
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/transact"
         app:layout_constraintEnd_toStartOf="@+id/addcategory"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transactions"
-        app:layout_constraintVertical_bias="0.924"
+        app:layout_constraintTop_toTopOf="@+id/transact"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/chart" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/excelfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/transact"
+        app:layout_constraintEnd_toStartOf="@+id/charts"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/transact"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_baseline_file_copy_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

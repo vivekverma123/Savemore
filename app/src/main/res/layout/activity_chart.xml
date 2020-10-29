@@ -10,7 +10,7 @@
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pie_chart_view"
         android:layout_width="0dp"
-        android:layout_height="450dp"
+        android:layout_height="420dp"
         android:layout_margin="30dp"
         android:scrollbars="horizontal|vertical"
         android:visibility="visible"
@@ -18,13 +18,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chart_group"
         app:layout_constraintVertical_bias="1.0" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bar_chart_view"
         android:layout_width="0dp"
-        android:layout_height="450dp"
+        android:layout_height="420dp"
         android:layout_margin="30dp"
         android:scrollbars="horizontal|vertical"
         android:visibility="visible"
@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chart_group"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -45,10 +45,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.221"
+        app:layout_constraintHorizontal_bias="0.16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView14"
@@ -60,7 +60,7 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.221"
+        app:layout_constraintHorizontal_bias="0.16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13"
         app:layout_constraintVertical_bias="0.0" />
@@ -78,9 +78,9 @@
 
         app:layout_constraintStart_toEndOf="@+id/textView13"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023">
+        app:layout_constraintVertical_bias="0.0">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/from"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,13 +99,39 @@
         app:layout_constraintHorizontal_bias="0.221"
         app:layout_constraintVertical_bias="0.0" >
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/to"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="To" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <RadioGroup
+        android:id="@+id/chart_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.29000002">
+
+        <RadioButton
+            android:id="@+id/piechart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Expenditure" />
+
+        <RadioButton
+            android:id="@+id/barchart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Monthly Earning/Expenditure" />
+    </RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

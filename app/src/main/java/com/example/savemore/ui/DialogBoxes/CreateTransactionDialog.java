@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 public class CreateTransactionDialog extends Dialog implements android.view.View.OnClickListener
@@ -163,6 +164,7 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
     {
         String date = datePicker.getDayOfMonth() + "/" + (datePicker.getMonth() + 1) + "/" + datePicker.getYear();
         SimpleDateFormat sdf =  new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
         Date d1 = new Date();
         try {
             d1 = sdf.parse(date);
