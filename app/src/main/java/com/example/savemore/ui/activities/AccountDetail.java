@@ -40,13 +40,23 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -335,23 +345,101 @@ public class AccountDetail extends AppCompatActivity {
                 }
 
                 //Perform operations on the document using its URI.
-                OpenFile(uri);
+                try {
+                    OpenFile(uri);
+                } catch (Exception e) {
+                    Log.d("Exception: ",e.toString());
+                }
             }
         }
     }
 
-    public void OpenFile(Uri uri)
-    {
-        try {
-            File file = new File(uri.toString());
-            FileInputStream fileInputStream = new FileInputStream(file);
+    public void OpenFile(Uri uri) throws IOException {
 
-        }
-        catch(Exception e1)
-        {
-            Log.d("File",e1.toString());
-        }
 
+        InputStream fileInputStream = getContentResolver().openInputStream(uri);
+
+
+        HSSFWorkbook wb = new HSSFWorkbook(fileInputStream);
+        HSSFSheet sheet = wb.getSheetAt(0);
+        FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
+        int x = 0;
+        for (Row row : sheet) {
+            if(x==0)
+            {
+                x += 1;
+                continue;
+            }
+            int y = 0;
+            Transaction transaction = new Transaction();
+            Date date = new Date();
+            try {
+
+            for (Cell cell : row) {
+                switch (y) {
+                    case 0:
+                        break;
+
+                    case 1:
+                        try {
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                            date = simpleDateFormat.parse(cell.getStringCellValue());
+                        } catch (Exception e1) {
+                            try {
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/yyyy");
+                                date = simpleDateFormat.parse(cell.getStringCellValue());
+                            } catch (Exception e2) {
+                                Log.d("Exception",e1.toString());
+                            }
+                            date = new Date();
+                            Log.d("Exception",e1.toString());
+                        }
+                        break;
+
+                    case 2:
+                        String particular = cell.getStringCellValue();
+                        transaction.setParticular(particular);
+                        break;
+
+                    case 3:
+                        int data = (int) cell.getNumericCellValue();
+                        if(data==0)
+                        {
+
+                        }
+                        else
+                        {
+                            transaction.setType(0);
+                            transaction.setAmount(data);
+                        }
+                        break;
+
+                    case 4:
+                        int data1 = (int) cell.getNumericCellValue();
+                        if(data1==0)
+                        {
+
+                        }
+                        else
+                        {
+                            transaction.setType(1);
+                            transaction.setAmount(data1);
+                        }
+                        break;
+
+                }
+                y += 1;
+            }}
+            catch(Exception e2)
+            {
+                Toast.makeText(AccountDetail.this,e2.toString(),Toast.LENGTH_SHORT).show();
+            }
+            x += 1;
+            transaction.setTime(date.getTime());
+            Toast.makeText(AccountDetail.this,transaction.giveDate().toString() + " " + transaction.getParticular() + " " +  transaction.getType() + " " + transaction.getAmount(),Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(AccountDetail.this,x + "",Toast.LENGTH_SHORT).show();
+        Toast.makeText(AccountDetail.this,"Success",Toast.LENGTH_SHORT).show();
     }
 
     public  boolean isReadStoragePermissionGranted() {
