@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -58,6 +59,7 @@ public class ChartActivity extends AppCompatActivity {
     private BarChart barChart;
     private TextInputLayout t1;
     private TextInputLayout t2;
+    private Button b1;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -79,10 +81,11 @@ public class ChartActivity extends AppCompatActivity {
         barChart.setVisibility(View.GONE);
 
         RadioGroup radioGroup = findViewById(R.id.chart_group);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
 
+        b1 = findViewById(R.id.plot);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 sdf.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
                 Date d1,d2;
@@ -108,8 +111,8 @@ public class ChartActivity extends AppCompatActivity {
                     }
                 }
 
-
-                switch(checkedId)
+                int id = radioGroup.getCheckedRadioButtonId();
+                switch(id)
                 {
                     case R.id.piechart:
                         plotPieChart(transactions1);

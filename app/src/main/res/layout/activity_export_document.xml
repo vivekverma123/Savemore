@@ -4,36 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="horizontal|vertical"
-    tools:context=".ui.activities.ChartActivity">
-
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pie_chart_view"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
-        android:layout_margin="30dp"
-        android:scrollbars="horizontal|vertical"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chart_group"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/bar_chart_view"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
-        android:layout_margin="30dp"
-        android:scrollbars="horizontal|vertical"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chart_group"
-        app:layout_constraintVertical_bias="1.0" />
+    tools:context=".ui.activities.ExportDocument">
 
     <TextView
         android:id="@+id/textView13"
@@ -102,50 +73,18 @@
             android:hint="To" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <RadioGroup
-        android:id="@+id/chart_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25">
-
-        <RadioButton
-            android:id="@+id/piechart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:text="Expenditure" />
-
-        <RadioButton
-            android:id="@+id/barchart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:text="Monthly Earning/Expenditure" />
-    </RadioGroup>
-
     <Button
         android:id="@+id/plot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Plot"
+        android:text="Fetch and Save"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chart_group"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.276" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

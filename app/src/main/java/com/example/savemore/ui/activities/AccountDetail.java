@@ -62,7 +62,7 @@ import java.util.TreeMap;
 
 public class AccountDetail extends AppCompatActivity {
 
-    public final int REQUEST_FILE = 65;
+
 
     Account account;
     ListView listView;
@@ -72,8 +72,7 @@ public class AccountDetail extends AppCompatActivity {
     private ValueEventListener listener;
     private TreeMap <String,Integer> mp1;
     private ArrayList <Transaction> arrayList;
-    private final int REQUEST_CODE_DOC = 67;
-    final public String TAG = "Permission";
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -269,9 +268,31 @@ public class AccountDetail extends AppCompatActivity {
         floatingActionButton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isReadStoragePermissionGranted();
+
+                Intent intent = new Intent(AccountDetail.this,ImportAccount.class);
+                intent.putExtra("Account",account);
+                startActivity(intent);
             }
         });
+
+        FloatingActionButton floatingActionButton5 = findViewById(R.id.export);
+        floatingActionButton5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try{
+                    Intent intent = new Intent(AccountDetail.this,ExportDocument.class);
+                    intent.putExtra("Account",account);
+                    intent.putExtra("Transactions",arrayList);
+                    startActivity(intent);
+                }
+                catch(Exception e1)
+                {
+                    Toast.makeText(AccountDetail.this,e1.toString(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     public void onPause() {
@@ -295,230 +316,6 @@ public class AccountDetail extends AppCompatActivity {
     // Request code for selecting a PDF document.
     private static final int PICK_PDF_FILE = 2;
 
-    private void browseDocuments(){
 
-        String[] mimeTypes =
-                {"application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .doc & .docx
-                        "application/vnd.ms-powerpoint","application/vnd.openxmlformats-officedocument.presentationml.presentation", // .ppt & .pptx
-                        "application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xls & .xlsx
-                        "text/plain",
-                        "application/pdf",
-                        "application/zip"};
-
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
-            if (mimeTypes.length > 0) {
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-            }
-        } else {
-            String mimeTypesStr = "";
-            for (String mimeType : mimeTypes) {
-                mimeTypesStr += mimeType + "|";
-            }
-            intent.setType(mimeTypesStr.substring(0,mimeTypesStr.length() - 1));
-        }
-        startActivityForResult(Intent.createChooser(intent,"ChooseFile"), REQUEST_CODE_DOC);
-
-    }
-
-    public void onActivityResult(int requestCode, int resultCode,
-                                 Intent resultData) {
-        super.onActivityResult(requestCode, resultCode, resultData);
-        if (requestCode == REQUEST_CODE_DOC
-                && resultCode == Activity.RESULT_OK) {
-            // The result data contains a URI for the document or directory that
-            // the user selected.
-            Uri uri = null;
-            if (resultData != null) {
-
-                try {
-
-                uri = resultData.getData();
-
-            }
-                catch(Exception e1)
-                {
-                    Log.d("File",e1.toString());
-                }
-
-                //Perform operations on the document using its URI.
-                try {
-                    OpenFile(uri);
-                } catch (Exception e) {
-                    Log.d("Exception: ",e.toString());
-                }
-            }
-        }
-    }
-
-    public void OpenFile(Uri uri) throws IOException {
-
-
-        InputStream fileInputStream = getContentResolver().openInputStream(uri);
-
-
-        HSSFWorkbook wb = new HSSFWorkbook(fileInputStream);
-        HSSFSheet sheet = wb.getSheetAt(0);
-        FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
-        int x = 0;
-        for (Row row : sheet) {
-            if(x==0)
-            {
-                x += 1;
-                continue;
-            }
-            int y = 0;
-            Transaction transaction = new Transaction();
-            Date date = new Date();
-            try {
-
-            for (Cell cell : row) {
-                switch (y) {
-                    case 0:
-                        break;
-
-                    case 1:
-                        try {
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                            date = simpleDateFormat.parse(cell.getStringCellValue());
-                        } catch (Exception e1) {
-                            try {
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/yyyy");
-                                date = simpleDateFormat.parse(cell.getStringCellValue());
-                            } catch (Exception e2) {
-                                Log.d("Exception",e1.toString());
-                            }
-                            date = new Date();
-                            Log.d("Exception",e1.toString());
-                        }
-                        break;
-
-                    case 2:
-                        String particular = cell.getStringCellValue();
-                        transaction.setParticular(particular);
-                        break;
-
-                    case 3:
-                        int data = (int) cell.getNumericCellValue();
-                        if(data==0)
-                        {
-
-                        }
-                        else
-                        {
-                            transaction.setType(0);
-                            transaction.setAmount(data);
-                        }
-                        break;
-
-                    case 4:
-                        int data1 = (int) cell.getNumericCellValue();
-                        if(data1==0)
-                        {
-
-                        }
-                        else
-                        {
-                            transaction.setType(1);
-                            transaction.setAmount(data1);
-                        }
-                        break;
-
-                }
-                y += 1;
-            }}
-            catch(Exception e2)
-            {
-                Toast.makeText(AccountDetail.this,e2.toString(),Toast.LENGTH_SHORT).show();
-            }
-            x += 1;
-            transaction.setTime(date.getTime());
-            Toast.makeText(AccountDetail.this,transaction.giveDate().toString() + " " + transaction.getParticular() + " " +  transaction.getType() + " " + transaction.getAmount(),Toast.LENGTH_SHORT).show();
-        }
-        Toast.makeText(AccountDetail.this,x + "",Toast.LENGTH_SHORT).show();
-        Toast.makeText(AccountDetail.this,"Success",Toast.LENGTH_SHORT).show();
-    }
-
-    public  boolean isReadStoragePermissionGranted() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v(TAG,"Permission is granted1");
-                browseDocuments();
-                return true;
-            } else {
-
-                Log.v(TAG,"Permission is revoked1");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3);
-                return false;
-            }
-        }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(TAG,"Permission is granted1");
-            return true;
-        }
-    }
-
-    public  boolean isWriteStoragePermissionGranted() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v(TAG,"Permission is granted2");
-                return true;
-            } else {
-
-                Log.v(TAG,"Permission is revoked2");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-                return false;
-            }
-        }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(TAG,"Permission is granted2");
-            return true;
-        }
-    }
-
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 2:
-                Log.d(TAG, "External storage2");
-                if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                    Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
-                    //resume tasks needing this permission
-                   // downloadPdfFile();
-                }else{
-                    //progress.dismiss();
-                }
-                break;
-
-            case 3:
-                Log.d(TAG, "External storage1");
-                if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                    Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
-                    //resume tasks needing this permission
-                    //SharePdfFile();
-                    browseDocuments();
-                }else{
-                    //progress.dismiss();
-                }
-                break;
-        }
-    }
-
-    public String getPath(Uri uri)
-    {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        if (cursor == null) return null;
-        int column_index =             cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String s=cursor.getString(column_index);
-        cursor.close();
-        return s;
-    }
 
 }
