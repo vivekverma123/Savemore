@@ -1,14 +1,18 @@
 package com.example.savemore.ui.UserAdapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +23,12 @@ import com.example.model.ProfileInfo;
 import com.example.savemore.R;
 import com.example.savemore.ui.activities.AccountDetail;
 import com.example.savemore.ui.activities.Signup;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -53,11 +63,62 @@ public class AccountInfoAdapter extends ArrayAdapter<Account>
             @Override
             public void onClick(View v) {
 
-                DatabaseReference d1 = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid());
-                d1.child("Categories").child(account.getId()).setValue(null);
-                d1.child("Transactions").child(account.getId()).setValue(null);
-                d1.child("Accounts").child(account.getId()).setValue(null);
-                Toast.makeText(context,"Account deleted successfully!",Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(context)
+                        .setTitle("Delete Account: This action can't be undone!")
+                        .setMessage("Are you sure you want to delete this account?")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference d1 = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid());
+                                d1.child("Categories").child(account.getId()).setValue(null);
+                                d1.child("Transactions").child(account.getId()).setValue(null);
+                                d1.child("Accounts").child(account.getId()).setValue(null);
+                                Toast.makeText(context,"Account deleted successfully!",Toast.LENGTH_SHORT).show();
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
+        });
+
+        Button b2 = convertView.findViewById(R.id.edit);
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Enter the new title");
+
+                final EditText input = new EditText(context);
+                input.setText(account.getName());
+
+                builder.setView(input);
+
+                builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String title = input.getText().toString();
+                        account.setName(title);
+
+                        DatabaseReference d1 = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid());
+                        d1.child("Accounts").child(account.getId()).setValue(account);
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
             }
         });
 
@@ -86,5 +147,6 @@ public class AccountInfoAdapter extends ArrayAdapter<Account>
         // Return the completed view to render on screen
         return convertView;
     }
+
 
 }

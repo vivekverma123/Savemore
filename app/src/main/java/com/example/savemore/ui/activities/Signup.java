@@ -84,9 +84,6 @@ public class Signup extends AppCompatActivity {
 
                                             Toast.makeText(Signup.this,"Registration successful!",Toast.LENGTH_SHORT).show();
                                             p1.setVisibility(View.GONE);
-                                            String uid = auth.getCurrentUser().getUid();
-                                            databaseReference = FirebaseDatabase.getInstance().getReference(uid);
-                                            databaseReference.child("Name").setValue("Name not set");
                                             onBackPressed();
 
                                         } else {

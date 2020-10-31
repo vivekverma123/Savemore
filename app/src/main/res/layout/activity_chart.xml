@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="horizontal|vertical"
-    tools:context=".ui.activities.ChartActivity">
+    tools:context=".ui.activities.ChartActivity"
+    android:windowSoftInputMode="stateAlwaysHidden">
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pie_chart_view"
@@ -141,6 +142,7 @@
         android:layout_height="wrap_content"
         android:text="Plot"
         android:textAllCaps="false"
+        app:backgroundTint="@color/mtrl_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

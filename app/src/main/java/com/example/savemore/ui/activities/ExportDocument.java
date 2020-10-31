@@ -1,6 +1,7 @@
 package com.example.savemore.ui.activities;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -58,7 +61,16 @@ public class ExportDocument extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         setContentView(R.layout.activity_export_document);
+
+
 
         Intent intent = getIntent();
         account = (Account) intent.getSerializableExtra("Account");
@@ -91,7 +103,7 @@ public class ExportDocument extends AppCompatActivity {
                 {
                     //Toast.makeText(ChartActivity.this,d1.toString() +" " +transaction.giveDate().toString() + " " + d2.toString(),Toast.LENGTH_SHORT).show();
                     //Log.d("Data",d1.toString() + " " + transaction.giveDate().toString() + " " + d2.toString());
-                    if(transaction.giveDate().after(d1) && transaction.giveDate().before(d2))
+                    if(transaction.getTime() >= d1.getTime() && transaction.getTime()<=d2.getTime())
                     {
                         arrayList.add(transaction);
                     }
@@ -184,6 +196,17 @@ public class ExportDocument extends AppCompatActivity {
             }
 
             File file1 = new File(file,filename);
+            if(file1.exists()==true)
+            {
+                int a = 1;
+                file1 = new File(file,account.getName() + a + ".xls");
+                while(file1.exists())
+                {
+                    a += 1;
+                    file1 = new File(file,account.getName() + a + ".xls");
+                }
+            }
+
             FileOutputStream fileOutputStream = new FileOutputStream(file1);
 
             HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
@@ -224,7 +247,7 @@ public class ExportDocument extends AppCompatActivity {
 
                 cell1 = hssfRow1.getCell(0);
                 cell1.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-                cell1.setCellValue(index - 1);
+                cell1.setCellValue(index);
 
                 cell1 = hssfRow1.getCell(1);
                 cell1.setCellType(HSSFCell.CELL_TYPE_STRING);
@@ -268,6 +291,7 @@ public class ExportDocument extends AppCompatActivity {
 
             Log.d("Success","Success");
             Toast.makeText(ExportDocument.this,"File " + filename + "saved in internal storage in /Savemore",Toast.LENGTH_SHORT).show();
+            onBackPressed();
         } catch(Exception e) {
             Log.d("Exception","File not found");
         }

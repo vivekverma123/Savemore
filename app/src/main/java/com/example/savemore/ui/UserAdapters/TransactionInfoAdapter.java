@@ -54,17 +54,17 @@ public class TransactionInfoAdapter extends ArrayAdapter<Transaction>
         t4.setText(transaction.getBal() + "");
 
         if(transaction.getType()==0) {
-            t1.setTextColor(Color.parseColor("#33691e"));
-            t2.setTextColor(Color.parseColor("#33691e"));
-            t3.setTextColor(Color.parseColor("#33691e"));
-            t4.setTextColor(Color.parseColor("#33691e"));
+            t1.setTextColor(Color.parseColor("#003d00"));
+            t2.setTextColor(Color.parseColor("#003d00"));
+            t3.setTextColor(Color.parseColor("#003d00"));
+            t4.setTextColor(Color.parseColor("#003d00"));
         }
         else
         {
-            t1.setTextColor(Color.parseColor("#7f0000"));
-            t2.setTextColor(Color.parseColor("#7f0000"));
-            t3.setTextColor(Color.parseColor("#7f0000"));
-            t4.setTextColor(Color.parseColor("#7f0000"));
+            t1.setTextColor(Color.parseColor("#8e0000"));
+            t2.setTextColor(Color.parseColor("#8e0000"));
+            t3.setTextColor(Color.parseColor("#8e0000"));
+            t4.setTextColor(Color.parseColor("#8e0000"));
         }
 
         // Return the completed view to render on screen

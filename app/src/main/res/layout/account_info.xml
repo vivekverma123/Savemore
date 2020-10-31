@@ -29,21 +29,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/delete" />
+            android:background="@drawable/delete"
+            app:backgroundTint="@color/purple_500" />
 
         <Button
             android:id="@+id/edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/edit" />
+            android:background="@drawable/edit"
+            app:backgroundTint="@color/purple_500" />
 
         <Button
             android:id="@+id/see"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/see" />
+            android:background="@drawable/see"
+            app:backgroundTint="@color/purple_500" />
     </LinearLayout>
 
     <LinearLayout

@@ -1,6 +1,7 @@
 package com.example.savemore.ui.activities;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -10,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -65,7 +68,17 @@ public class ChartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         setContentView(R.layout.activity_chart);
+
+
+
 
         t1 = findViewById(R.id.form_input);
         t2 = findViewById(R.id.to_layout);
@@ -105,7 +118,7 @@ public class ChartActivity extends AppCompatActivity {
                 {
                     //Toast.makeText(ChartActivity.this,d1.toString() +" " +transaction.giveDate().toString() + " " + d2.toString(),Toast.LENGTH_SHORT).show();
                     //Log.d("Data",d1.toString() + " " + transaction.giveDate().toString() + " " + d2.toString());
-                    if(transaction.giveDate().after(d1) && transaction.giveDate().before(d2))
+                    if(transaction.getTime() >= d1.getTime() && transaction.getTime()<=d2.getTime())
                     {
                         transactions1.add(transaction);
                     }

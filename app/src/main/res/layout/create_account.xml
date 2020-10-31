@@ -10,7 +10,7 @@
         android:id="@+id/textView6"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:background="#EF9A9A"
+        android:background="@color/mtrl_btn"
         android:gravity="center_vertical"
         android:padding="10dp"
         android:text="Create New Account"

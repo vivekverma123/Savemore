@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.model.ProfileInfo;
 import com.example.savemore.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +31,9 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_dashboard2);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,6 +67,13 @@ public class DashboardActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView t1,t2;
+        t1 = headerView.findViewById(R.id.display_name);
+        t2 = headerView.findViewById(R.id.display_email);
+        t1.setText("Welcome " + ProfileInfo.firebaseUser.getDisplayName());
+        t2.setText(ProfileInfo.firebaseUser.getEmail());
 
     }
 
