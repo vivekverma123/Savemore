@@ -6,14 +6,14 @@
   3. XML 
   4. Constraint Layout 
   5. Firebase Database
-  6. MPAndroidChart
+  6. MPAndroid Chart Library
+  7. Apache POI 
 
-### Android app designed for the admin (or accountant) of the housing society where he can approve payment requests by verifying the attached receipts pertaining the following :-
-  1. Maintenance
-  2. Previous Due
-  3. Advance Payments
-  
-### Admin also updates the accounts for  any expenses beared by the society which is visible to all flat owners in real time.
+### An android app designed to manage and track your personel expenses. The app offers following features :-
+  1. Create and manage multiple accounts (not user account but financial one), each with it's own set of transactions.
+  2. You can group your spendings into catgeories of your choice (eg. bill, groceries, etc) and analyse them with the help of pie chart and bar chart.
+  3. You can parse an excel file and import your transactions to this app.
+  4. You can also save account statement for a specified period in the form of excel file in your external storage.
 
 <p align="center">
   <img src="https://github.com/vivekverma123/Savemore/blob/master/Screenshots/1.jpg" width="200">
