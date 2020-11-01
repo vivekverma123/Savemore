@@ -10,10 +10,10 @@
   7. Apache POI 
 
 ### An android app designed to manage and track your personel expenses. The app offers following features :-
-  1. Create and manage multiple accounts (not user account but financial one), each with it's own set of transactions.
+  1. Create and manage multiple accounts (not user account but financial one), each with it's own set of transactions and set of expense categories.
   2. You can group your spendings into catgeories of your choice (eg. bill, groceries, etc) and analyse them with the help of pie chart and bar chart.
   3. You can parse an excel file and import your transactions to this app.
-  4. You can also save account statement for a specified period in the form of excel file in your external storage.
+  4. You can also save account statement for a specified period in the form of an excel file in your external storage.
 
 <p align="center">
   <img src="https://github.com/vivekverma123/Savemore/blob/master/Screenshots/1.jpg" width="200">
