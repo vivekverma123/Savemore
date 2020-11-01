@@ -12,7 +12,7 @@
         android:id="@+id/pie_chart_view"
         android:layout_width="0dp"
         android:layout_height="400dp"
-        android:layout_margin="30dp"
+        android:layout_margin="10dp"
         android:scrollbars="horizontal|vertical"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,7 +26,7 @@
         android:id="@+id/bar_chart_view"
         android:layout_width="0dp"
         android:layout_height="400dp"
-        android:layout_margin="30dp"
+        android:layout_margin="10dp"
         android:scrollbars="horizontal|vertical"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,13 +42,14 @@
         android:layout_height="60dp"
         android:gravity="center|right"
         android:text="From"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04000002" />
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <TextView
         android:id="@+id/textView14"
@@ -56,6 +57,7 @@
         android:layout_height="60dp"
         android:gravity="center|right"
         android:text="To"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView13"
@@ -82,7 +84,8 @@
             android:id="@+id/from"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="From" />
+            android:hint="From"
+            android:textColor="?android:attr/textColorPrimary" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -100,7 +103,8 @@
             android:id="@+id/to"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="To" />
+            android:hint="To"
+            android:textColor="?android:attr/textColorPrimary" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <RadioGroup
@@ -112,8 +116,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25">
+        app:layout_constraintTop_toBottomOf="@+id/to_layout"
+        app:layout_constraintVertical_bias="0.00999999">
 
         <RadioButton
             android:id="@+id/piechart"
@@ -123,7 +127,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:text="Expenditure" />
+            android:text="Expenditure"
+            android:textColor="?android:attr/textColorPrimary" />
 
         <RadioButton
             android:id="@+id/barchart"
@@ -133,7 +138,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:text="Monthly Earning/Expenditure" />
+            android:text="Monthly Earning/Expenditure"
+            android:textColor="?android:attr/textColorPrimary" />
     </RadioGroup>
 
     <Button
@@ -142,12 +148,31 @@
         android:layout_height="wrap_content"
         android:text="Plot"
         android:textAllCaps="false"
+        android:textColor="?android:attr/textColorPrimary"
         app:backgroundTint="@color/mtrl_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chart_group"
         app:layout_constraintVertical_bias="0.04" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="View Charts"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.842"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

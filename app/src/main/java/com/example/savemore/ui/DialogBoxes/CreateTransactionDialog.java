@@ -47,6 +47,7 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
     EditText e2;
     public TreeMap<String,Integer> mp1;
     String selectedCategory;
+    private Spinner spinner;
 
     public CreateTransactionDialog(Activity a, Account account, TreeMap <String,Integer> mp1) {
         super(a);
@@ -84,7 +85,7 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
         radioGroup = findViewById(R.id.transaction_type);
         e1 = findViewById(R.id.amount);
         e2 = findViewById(R.id.particular);
-        Spinner spinner = findViewById(R.id.categories2);
+        spinner = findViewById(R.id.categories2);
 
         Iterator iterator = mp1.entrySet().iterator();
         ArrayList <String> arrayList = new ArrayList<>();
@@ -124,10 +125,12 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
             if(transaction.getType()==0)
             {
                 radioGroup.check(R.id.debit);
+                spinner.setVisibility(View.GONE);
             }
             else
             {
                 radioGroup.check(R.id.credit);
+                spinner.setVisibility(View.VISIBLE);
             }
 
             e1.setText(Integer.toString(transaction.getAmount()));
@@ -138,6 +141,25 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
             }
 
         }
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId)
+                {
+                    case R.id.debit:
+                        spinner.setVisibility(View.GONE);
+                        break;
+
+                    case R.id.credit:
+                        spinner.setVisibility(View.VISIBLE);
+                        break;
+
+
+                }
+            }
+        });
+
 
     }
 
@@ -190,8 +212,6 @@ public class CreateTransactionDialog extends Dialog implements android.view.View
             default:
                 type = -1;
         }
-
-
 
         if(e1.getText().toString().equals("") || e2.getText().toString().equals("") || type == -1)
         {
