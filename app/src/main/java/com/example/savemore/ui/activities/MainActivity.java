@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button b1,b2;
+    Button b1,b2,b3;
     EditText e1,e2;
     Context context;
     FirebaseAuth auth;
@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
         b1 = findViewById(R.id.login);
         b2 = findViewById(R.id.signup);
+        b3 = findViewById(R.id.forgot);
+
         e1 = findViewById(R.id.email);
         e2 = findViewById(R.id.password);
 
@@ -125,6 +127,38 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(context,Signup.class));
+            }
+        });
+
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(e1.getText().toString().equals("")==false)
+                {
+                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                    String emailAddress = e1.getText().toString();
+
+                    auth.sendPasswordResetEmail(emailAddress)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(MainActivity.this,"Email sent successfully",Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(MainActivity.this,"Service unavailable, try later!",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this,"Please provide your registered Email ID",Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
     }

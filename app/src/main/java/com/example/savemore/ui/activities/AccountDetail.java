@@ -207,8 +207,38 @@ public class AccountDetail extends AppCompatActivity {
                 DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference(ProfileInfo.firebaseUser.getUid()).child("Accounts").child(account.getId());
                 databaseReference1.setValue(account);
 
-                TransactionInfoAdapter transactionInfoAdapter = new TransactionInfoAdapter(AccountDetail.this,arrayList1);
+
+                int x = 0,temp1 = 0;
+                if(listView.getAdapter()==null) {
+
+                }
+                else
+                {
+                    x = listView.getFirstVisiblePosition();
+                    temp1 = listView.getAdapter().getCount();
+                }
+
+                TransactionInfoAdapter transactionInfoAdapter = new TransactionInfoAdapter(AccountDetail.this, arrayList1);
                 listView.setAdapter(transactionInfoAdapter);
+
+                if(listView.getAdapter()==null) {
+
+                }
+                else
+                {
+                    if(temp1<arrayList1.size()) {
+                        listView.setSelection(x+1);
+                    }
+                    else if(temp1>arrayList1.size())
+                    {
+                        listView.setSelection(Math.max(x-1,0));
+                    }
+                    else
+                    {
+                        listView.setSelection(x);
+                    }
+                }
+
             }
 
             @Override

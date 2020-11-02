@@ -93,17 +93,14 @@ public class Signup extends AppCompatActivity {
                                         if (task.isSuccessful()) {
 
                                             Toast.makeText(Signup.this,"Registration successful!",Toast.LENGTH_SHORT).show();
-                                            p1.setVisibility(View.GONE);
-                                            onBackPressed();
 
                                         } else {
                                             Toast.makeText(Signup.this,"Registration failed!!",Toast.LENGTH_SHORT).show();
-                                            p1.setVisibility(View.GONE);
-                                            onBackPressed();
                                         }
+                                        p1.setVisibility(View.GONE);
+                                        onBackPressed();
                                     }
                                 });
-
                     }
                 }
             }

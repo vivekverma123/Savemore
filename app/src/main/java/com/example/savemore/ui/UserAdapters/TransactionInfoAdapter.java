@@ -70,5 +70,4 @@ public class TransactionInfoAdapter extends ArrayAdapter<Transaction>
         // Return the completed view to render on screen
         return convertView;
     }
-
 }

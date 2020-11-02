@@ -77,6 +77,23 @@
         app:layout_constraintTop_toBottomOf="@+id/login"
         app:layout_constraintVertical_bias="0.109" />
 
+    <Button
+        android:id="@+id/forgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:gravity="top"
+        android:padding="1dp"
+        android:text="Forgot Password?"
+        android:textAllCaps="false"
+        android:textColor="#304FFE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.706"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/to_text_input_layout2"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/bar2"
         style="?android:attr/progressBarStyle"
