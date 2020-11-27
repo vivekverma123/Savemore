@@ -83,7 +83,6 @@
         android:layout_height="wrap_content"
         android:text="Fetch and Save"
         android:textAllCaps="false"
-        android:textColor="?android:attr/textColorPrimary"
         app:backgroundTint="@color/mtrl_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -185,8 +185,6 @@ public class ImportAccount extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
         InputStream fileInputStream = getContentResolver().openInputStream(uri);
-
-
         HSSFWorkbook wb = new HSSFWorkbook(fileInputStream);
         HSSFSheet sheet = wb.getSheetAt(0);
         FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
